@@ -27,15 +27,40 @@ public class PetDAO {
 		}
 	}
 
-	public int createPetRecord(String name, int age, String colour, String breed) {
+	public int createPetRecordOwner(Pet petCreate) {
+		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Database connected!");
+			try (PreparedStatement stmnt = connection.prepareStatement(
+					"INSERT INTO pet (petName, petAge, petColour, petBreed, ownerId) VALUES (?, ?, ?, ?, ?)");) {
+				stmnt.setString(1, petCreate.getName());
+				stmnt.setInt(2, petCreate.getAge());
+				stmnt.setString(3, petCreate.getColour());
+				stmnt.setString(4, petCreate.getBreed());
+				stmnt.setInt(5, petCreate.getOwnerId());
+				return stmnt.executeUpdate();
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+			}
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+
+		return 0;
+	}
+
+	public int createPetRecordNoOwner(Pet petCreate) {
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
 			System.out.println("Database connected!");
 			try (PreparedStatement stmnt = connection
 					.prepareStatement("INSERT INTO pet (petName, petAge, petColour, petBreed) VALUES (?, ?, ?, ?)");) {
-				stmnt.setString(1, name);
-				stmnt.setInt(2, age);
-				stmnt.setString(3, colour);
-				stmnt.setString(4, breed);
+				stmnt.setString(1, petCreate.getName());
+				stmnt.setInt(2, petCreate.getAge());
+				stmnt.setString(3, petCreate.getColour());
+				stmnt.setString(4, petCreate.getBreed());
 				return stmnt.executeUpdate();
 
 			} catch (SQLException e) {
@@ -92,7 +117,8 @@ public class PetDAO {
 					String colour = results.getString("petColour");
 					int age = results.getInt("petAge");
 					String breed = results.getString("petBreed");
-					pets.add(new Pet(id, name, age, colour, breed));
+					int ownerId = results.getInt("ownerId");
+					pets.add(new Pet(id, name, age, colour, breed, ownerId));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

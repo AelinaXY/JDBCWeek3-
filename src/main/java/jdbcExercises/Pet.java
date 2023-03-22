@@ -2,7 +2,7 @@ package jdbcExercises;
 
 public class Pet {
 	private String name, colour, breed;
-	private int id, age;
+	private int id, age, ownerId;
 
 	public Pet(int id, String name, int age, String colour, String breed) {
 		super();
@@ -13,9 +13,20 @@ public class Pet {
 		this.age = age;
 	}
 
+	public Pet(int id, String name, int age, String colour, String breed, int ownerId) {
+		super();
+		this.name = name;
+		this.colour = colour;
+		this.breed = breed;
+		this.id = id;
+		this.age = age;
+		this.ownerId = ownerId;
+	}
+
 	@Override
 	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", age=" + age + ", colour=" + colour + ", breed=" + breed + "]";
+		return "Pet [id=" + id + ", name=" + name + ", age=" + age + ", colour=" + colour + ", breed=" + breed
+				+ ", ownerId=" + ownerId + "]";
 	}
 
 	public String getName() {
@@ -56,6 +67,14 @@ public class Pet {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public int getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(int ownerId) {
+		this.ownerId = ownerId;
 	}
 
 }

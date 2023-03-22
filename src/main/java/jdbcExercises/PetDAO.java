@@ -105,6 +105,28 @@ public class PetDAO {
 		return pets;
 	}
 
+	public int deletePetDatabase(int idToDelete) {
+
+		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Database connected!");
+
+			try (PreparedStatement stmnt = connection.prepareStatement("DELETE FROM pet WHERE petId=?");) {
+				stmnt.setInt(1, idToDelete);
+				return stmnt.executeUpdate();
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+			}
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+
+		return 0;
+	}
+
 	public String getUrl() {
 		return url;
 	}

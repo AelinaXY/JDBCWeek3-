@@ -1,23 +1,13 @@
 package jdbcExercises;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class Runner {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String url = "jdbc:mysql://localhost:3306/petexercise";
-		String username = "root";
-		String password = "pass";
 
-		System.out.println("Connecting database...");
+		PetDAO petDAO = new PetDAO("jdbc:mysql://localhost:3306/petexercise", "root", "pass");
 
-		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
-		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
-		}
+		System.out.println(petDAO.createPetRecord("testName2", 59025, "testColour2", "testBreed2"));
+
+		System.out.println(petDAO.readPetDatabase().toString());
 	}
 }

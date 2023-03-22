@@ -29,7 +29,7 @@ public class PetDAO {
 
 	public int createPetRecordOwner(Pet petCreate) {
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
+			System.out.println("Database connected! - createPetRecordOwner");
 			try (PreparedStatement stmnt = connection.prepareStatement(
 					"INSERT INTO pet (petName, petAge, petColour, petBreed, ownerId) VALUES (?, ?, ?, ?, ?)");) {
 				stmnt.setString(1, petCreate.getName());
@@ -46,7 +46,7 @@ public class PetDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot connect the database! - createPetRecordOwner", e);
 		}
 
 		return 0;
@@ -54,7 +54,7 @@ public class PetDAO {
 
 	public int createPetRecordNoOwner(Pet petCreate) {
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
+			System.out.println("Database connected! - createPetRecordNoOwner");
 			try (PreparedStatement stmnt = connection
 					.prepareStatement("INSERT INTO pet (petName, petAge, petColour, petBreed) VALUES (?, ?, ?, ?)");) {
 				stmnt.setString(1, petCreate.getName());
@@ -70,7 +70,7 @@ public class PetDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot connect the database! - createPetRecordNoOwner", e);
 		}
 
 		return 0;
@@ -79,7 +79,7 @@ public class PetDAO {
 	public int updatePetRecord(int idToEdit, Pet petObject) {
 
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
+			System.out.println("Database connected! - updatePetRecord");
 			try (PreparedStatement stmnt = connection.prepareStatement(
 					"UPDATE pet SET petName = ?, petAge = ?, petColour = ?, petBreed = ? WHERE petId = ?");) {
 				stmnt.setString(1, petObject.getName());
@@ -96,7 +96,7 @@ public class PetDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot connect the database! - updatePetRecord", e);
 		}
 
 		return 0;
@@ -107,7 +107,7 @@ public class PetDAO {
 		List<Pet> pets = new ArrayList<>();
 
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
+			System.out.println("Database connected! - readPetDatabase");
 
 			try (Statement stmnt = connection.createStatement();
 					ResultSet results = stmnt.executeQuery("SELECT * FROM pet");) {
@@ -125,16 +125,16 @@ public class PetDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot connect the database!  - readPetDatabase", e);
 		}
 
 		return pets;
 	}
 
-	public int deletePetDatabase(int idToDelete) {
+	public int deletePetDatabaseRecord(int idToDelete) {
 
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
-			System.out.println("Database connected!");
+			System.out.println("Database connected! - deletePetDatabaseRecord");
 
 			try (PreparedStatement stmnt = connection.prepareStatement("DELETE FROM pet WHERE petId=?");) {
 				stmnt.setInt(1, idToDelete);
@@ -147,7 +147,7 @@ public class PetDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot connect the database! - deletePetDatabaseRecord", e);
 		}
 
 		return 0;

@@ -4,7 +4,7 @@ public class Pet {
 	private String name, colour, breed;
 	private int id, age;
 
-	public Pet(String name, String colour, String breed, int id, int age) {
+	public Pet(int id, String name, int age, String colour, String breed) {
 		super();
 		this.name = name;
 		this.colour = colour;
@@ -15,7 +15,7 @@ public class Pet {
 
 	@Override
 	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", colour=" + colour + ", breed=" + breed + ", age=" + age + "]";
+		return "Pet [id=" + id + ", name=" + name + ", age=" + age + ", colour=" + colour + ", breed=" + breed + "]";
 	}
 
 	public String getName() {

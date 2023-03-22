@@ -51,6 +51,33 @@ public class PetDAO {
 		return 0;
 	}
 
+	public int updatePetRecord(int idToEdit, Pet petObject) {
+
+		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Database connected!");
+			try (PreparedStatement stmnt = connection.prepareStatement(
+					"UPDATE pet SET petName = ?, petAge = ?, petColour = ?, petBreed = ? WHERE petId = ?");) {
+				stmnt.setString(1, petObject.getName());
+				stmnt.setInt(2, petObject.getAge());
+				stmnt.setString(3, petObject.getColour());
+				stmnt.setString(4, petObject.getBreed());
+				stmnt.setInt(5, idToEdit);
+				return stmnt.executeUpdate();
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+			}
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+
+		return 0;
+
+	}
+
 	public List<Pet> readPetDatabase() {
 		List<Pet> pets = new ArrayList<>();
 
@@ -65,7 +92,7 @@ public class PetDAO {
 					String colour = results.getString("petColour");
 					int age = results.getInt("petAge");
 					String breed = results.getString("petBreed");
-					pets.add(new Pet(name, colour, breed, id, age));
+					pets.add(new Pet(id, name, age, colour, breed));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

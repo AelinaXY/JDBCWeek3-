@@ -103,6 +103,29 @@ public class PetDAO {
 
 	}
 
+	public int updatePetRecordOwnerId(int idToEdit, int ownerId) {
+
+		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Database connected! - updatePetRecord");
+			try (PreparedStatement stmnt = connection.prepareStatement("UPDATE pet SET ownerId = ? WHERE petId = ?");) {
+				stmnt.setInt(1, ownerId);
+				stmnt.setInt(2, idToEdit);
+				return stmnt.executeUpdate();
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+			}
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database! - updatePetRecord", e);
+		}
+
+		return 0;
+
+	}
+
 	public List<Pet> readPetDatabase() {
 		List<Pet> pets = new ArrayList<>();
 
